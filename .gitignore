@@ -1,10 +1,9 @@
-*.suo
-/UserApi/UserApi.Api/bin/Debug/net6.0
+/UserApi\.vs\userApi\v17
+/UserApi/UserApi.Api/bin
 /UserApi/UserApi.Api/obj
-/UserApi/UserApi.Applications/bin/Debug/net6.0
+/UserApi/UserApi.Applications/bin
 /UserApi/UserApi.Applications/obj
-/UserApi/UserApi.Domain/bin/Debug/net6.0
+/UserApi/UserApi.Domain/bin
 /UserApi/UserApi.Domain/obj
-/UserApi/UserApi.Infrastructure/bin/Debug/net6.0
-/UserApi/UserApi.Infrastructure/obj/Debug/net6.0
+/UserApi/UserApi.Infrastructure/bin
 /UserApi/UserApi.Infrastructure/obj
