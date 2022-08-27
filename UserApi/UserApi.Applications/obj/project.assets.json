@@ -1,0 +1,90 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "UserApi.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/UserApi.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UserApi.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UserApi.Domain/1.0.0": {
+      "type": "project",
+      "path": "../UserApi.Domain/UserApi.Domain.csproj",
+      "msbuildProject": "../UserApi.Domain/UserApi.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "UserApi.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\berit\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\dev\\userApi\\UserApi\\UserApi.Applications\\UserApi.Applications.csproj",
+      "projectName": "UserApi.Applications",
+      "projectPath": "C:\\dev\\userApi\\UserApi\\UserApi.Applications\\UserApi.Applications.csproj",
+      "packagesPath": "C:\\Users\\berit\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\userApi\\UserApi\\UserApi.Applications\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\berit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "C:\\dev\\userApi\\UserApi\\UserApi.Domain\\UserApi.Domain.csproj": {
+              "projectPath": "C:\\dev\\userApi\\UserApi\\UserApi.Domain\\UserApi.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
