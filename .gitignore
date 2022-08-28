@@ -7,3 +7,5 @@
 /UserApi/UserApi.Domain/obj
 /UserApi/UserApi.Infrastructure/bin
 /UserApi/UserApi.Infrastructure/obj
+/UserApi/.vs/UserApi/DesignTimeBuild
+/UserApi/.vs/UserApi/v16
