@@ -21,7 +21,7 @@ namespace UserApi.Infrastructure.Data.Repositories
         public async Task<T> InsertAsync(T entity)
         {
             Context.Set<T>().AddAsync(entity);
-            Context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
             return entity;
         }
 
@@ -53,7 +53,7 @@ namespace UserApi.Infrastructure.Data.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
             return entity;
         }
 
