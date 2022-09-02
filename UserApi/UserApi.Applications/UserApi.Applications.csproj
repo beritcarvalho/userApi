@@ -10,4 +10,8 @@
     <ProjectReference Include="..\UserApi.Domain\UserApi.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
 </Project>

@@ -14,9 +14,5 @@ namespace UserApi.Infrastructure.Data.Repositories
         public PersonRepository(UserDbContext context) : base(context)
         {
         }
-        public void Teste()
-        {
-            var teste = 1;
-        }
     }
 }

@@ -70,6 +70,14 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
             builder.Property(person => person.Inactive_Date)
                 .HasColumnName("Inactive_Date")
                 .HasColumnType("DATETIME");
+
+            builder.Property(person => person.Activation_Date)
+                .HasColumnName("Activation_Date")
+                .HasColumnType("DATETIME");
+
+            builder.Property(person => person.Change_Date)
+                .HasColumnName("Change_Date")
+                .HasColumnType("DATETIME");
             #endregion
 
             #region Indexes
