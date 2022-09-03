@@ -14,11 +14,11 @@ namespace UserApi.Applications.Mappings
     {
         public DomainToViewModelMappingProfile()
         {
-            // Inserindo os dados em person em viewModel
-            CreateMap<Person, PersonViewModel>();
+            // Inserindo os dados em account em viewModel
+            CreateMap<Account, AccountViewModel>();
 
-            //Insrindo os dados de person em InputModel
-            CreateMap<Person, PersonInputModel>().ReverseMap();
+            //Insrindo os dados de account em InputModel
+            CreateMap<Account, AccountInputModel>().ReverseMap();
 
         }
     }

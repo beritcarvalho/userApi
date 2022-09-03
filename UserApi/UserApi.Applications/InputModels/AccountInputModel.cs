@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UserApi.Applications.InputModels
 {
-    public class PersonInputModel
+    public class AccountInputModel
     {
         [Required(ErrorMessage = "O nome é obrigatório")]
         [MinLength(2, ErrorMessage = "A quantidade de caractere não pode ser menor que 2")]

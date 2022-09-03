@@ -9,9 +9,9 @@ using UserApi.Infrastructure.Data.Contexts;
 
 namespace UserApi.Infrastructure.Data.Repositories
 {
-    public class PersonRepository : BaseRepository<Person>, IPersonRepository
+    public class AccountRepository : BaseRepository<Account>, IAccountRepository
     {
-        public PersonRepository(UserDbContext context) : base(context)
+        public AccountRepository(UserDbContext context) : base(context)
         {
         }
     }

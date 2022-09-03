@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UserApi.Applications.InputModels
 {
-    public class UpdatePersonInputModel
+    public class UpdateAccountInputModel
     {
         public int Id { get; set; }
         public bool? Active { get; set; }

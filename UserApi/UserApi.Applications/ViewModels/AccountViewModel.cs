@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserApi.Applications.ViewModels
 {
-    public class PersonViewModel
+    public class AccountViewModel
     {
         public int Id { get; set; }
         public string First_Name { get; set; }
@@ -15,6 +15,6 @@ namespace UserApi.Applications.ViewModels
         public bool Active { get; set; }
         public DateTime? Inactive_Date { get; set; }
         public DateTime? Activation_Date { get; set; }
-        public DateTime? Change_Date { get; set; }
+        public DateTime? Last_Update_Date { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace UserApi.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("FK_User_Person")]
-        [Column("Person", TypeName = "INT")]
+        [ForeignKey("FK_User_Account")]
+        [Column("Account", TypeName = "INT")]
         [Required]
-        public int PersonId { get; set; }
-        public Person Person { get; set; }
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
 
 
         [Column("Login", TypeName = "NVARCHAR")]

@@ -16,3 +16,4 @@
 /.vs
 /UserApi/.vs/UserApi/v17
 /UserApi/Infrastructure.IoC/obj
+/UserApi/Infrastructure.IoC/bin/Debug/net6.0

@@ -11,7 +11,7 @@ namespace UserApi.Infrastructure.Data.Contexts
         {
         }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
@@ -19,7 +19,7 @@ namespace UserApi.Infrastructure.Data.Contexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new PersonConfiguration());
+            builder.ApplyConfiguration(new AccountConfiguration());
         }
     }
 }
