@@ -6,13 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddServices();
 
 
 //Extension
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddRepositories();
-builder.Services.AddServices();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

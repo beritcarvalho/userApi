@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,33 +15,30 @@ namespace UserApi.Applications.Services
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
-        public PersonService(IPersonRepository personRepository)
+        private readonly IMapper _mapper;
+        public PersonService(IPersonRepository personRepository, IMapper mapper)
         {
             _personRepository = personRepository;
+            _mapper = mapper;
+
         }
 
         public async Task<PersonViewModel> AddPerson(PersonInputModel personInput)
         {
-            var person = new Person();
-            person.First_Name = personInput.First_Name;
-            person.Last_Name = personInput.Last_Name;
-            person.Cpf = personInput.Cpf;
-            person.Phone = personInput.Phone;
-            person.Email = personInput.Email;
-            person.Create_Date = DateTime.Now;
-            person.Active = true;
-
-            var teste = await _personRepository.InsertAsync(person);
-
-            var personViewModel = new PersonViewModel
+            try
             {
-                Id = teste.Id,
-                First_Name = teste.First_Name,
-                Last_Name = teste.Last_Name,
-                Active = teste.Active
-            };
+                var person = _mapper.Map<Person>(personInput);
+                person.Active = true;
+                person.Activation_Date = DateTime.Now;
+                person.Create_Date = DateTime.Now;
 
-            return personViewModel;
+                await _personRepository.InsertAsync(person);
+                return _mapper.Map<PersonViewModel>(person);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<PersonViewModel> DisablePerson(int id)

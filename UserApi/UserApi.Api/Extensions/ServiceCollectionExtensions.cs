@@ -7,16 +7,13 @@ namespace UserApi.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
-        {
-            services.AddScoped<IPersonRepository, PersonRepository>();
-
-            return services;
-        }
-
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IPersonService, PersonService>();
+            services
+                .AddControllers()
+                .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
+
+            services.AddAutoMapperConfiguration();
 
             return services;
         }
