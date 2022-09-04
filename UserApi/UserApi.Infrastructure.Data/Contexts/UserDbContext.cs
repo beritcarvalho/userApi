@@ -12,8 +12,6 @@ namespace UserApi.Infrastructure.Data.Contexts
         }
 
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

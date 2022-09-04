@@ -8,7 +8,8 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            builder.ToTable("Account", "AccessControl");
+            builder.ToTable("Account", "AccessControl")
+                .HasComment("Tabela de Pessoas Cadastradas");
 
             #region PrimaryKey
             builder
@@ -28,42 +29,49 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                 .IsRequired() 
                 .HasColumnName("First_Name") 
                 .HasColumnType("NVARCHAR") 
-                .HasMaxLength(30);
+                .HasMaxLength(30)
+                .HasComment("Nome");
 
             builder.Property(account => account.Last_Name)
                 .IsRequired()
                 .HasColumnName("Last_Name")
                 .HasColumnType("NVARCHAR")
-                .HasMaxLength(30);
+                .HasMaxLength(30)
+                .HasComment("Sobrenome");
 
             builder.Property(account => account.Cpf)
                 .IsRequired()
                 .HasColumnName("Cpf")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(11);
+                .HasMaxLength(11)
+                .HasComment("CPF");
 
             builder.Property(account => account.Phone)
                 .IsRequired()
                 .HasColumnName("Phone")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(11);
+                .HasMaxLength(11)
+                .HasComment("Telefone para contato");
 
             builder.Property(account => account.Email)
                 .HasColumnName("Email")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .HasComment("Email");
 
             builder.Property(account => account.Create_Date)
                 .IsRequired()
                 .HasColumnName("Create_Date")
                 .HasColumnType("DATETIME")
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("GETDATE()")
+                .HasComment("Data de Criação do perfil");
 
             builder.Property(account => account.Last_Update_Date)
                 .IsRequired()
                 .HasColumnName("Last_Update_Date")
                 .HasColumnType("DATETIME")
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("GETDATE()")
+                .HasComment("Ultima atualização do cadastro");
             #endregion
 
             #region Indexes
@@ -85,9 +93,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                     Last_Name = "System",
                     Cpf = "0124567890",
                     Phone = "11987654321",
-                    Email = "admin@admin.com",
-                    Create_Date = DateTime.UtcNow.ToUniversalTime(),
-                    Last_Update_Date = DateTime.UtcNow.ToUniversalTime()
+                    Email = "admin@admin.com"
                 });
             #endregion
         }
