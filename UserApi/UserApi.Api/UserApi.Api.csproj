@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.IoC\UserApi.Infrastructure.IoC.csproj" />
     <ProjectReference Include="..\UserApi.Applications\UserApi.Applications.csproj" />
     <ProjectReference Include="..\UserApi.Infrastructure.IoC\UserApi.Infrastructure.IoC.csproj" />
   </ItemGroup>

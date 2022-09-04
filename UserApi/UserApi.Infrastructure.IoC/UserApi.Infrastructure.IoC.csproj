@@ -10,7 +10,6 @@
     <ProjectReference Include="..\UserApi.Applications\UserApi.Applications.csproj" />
     <ProjectReference Include="..\UserApi.Domain\UserApi.Domain.csproj" />
     <ProjectReference Include="..\UserApi.Infrastructure.Data\UserApi.Infrastructure.Data.csproj" />
-    <ProjectReference Include="..\UserApi.Infrastructure\UserApi.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>
