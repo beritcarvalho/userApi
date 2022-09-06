@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using UserApi.Applications.InputModels;
 using UserApi.Applications.Interfaces;
 using UserApi.Applications.ViewModels;
@@ -30,68 +26,36 @@ namespace UserApi.Applications.Services
                 var account = _mapper.Map<Account>(accountInput);
 
                 account.Create_Date = DateTime.Now;
+                account.Last_Update_Date = DateTime.Now;
 
                 await _accountRepository.InsertAsync(account);
                 return _mapper.Map<AccountViewModel>(account);
             }
-            catch(Exception ex)
+            catch (DbUpdateException e)
             {
-                throw ex;
+                throw new Exception("ERR-01X01 Não foi possível realizar o cadastro");
             }
-        }
-
-        public async Task<AccountViewModel> DisableAccount(int id)
-        {
-            var account = await _accountRepository.GetByIdAsync(id);
-
-            account.Last_Update_Date = DateTime.Now;
-
-            await _accountRepository.UpdateAsync(account);
-
-            var accountView = new AccountViewModel
+            catch
             {
-                Id = account.Id,
-                First_Name = account.First_Name,
-                Last_Name = account.Last_Name,
-                Create_Date = account.Create_Date
-            };
-            return accountView;
-        }
-
-        public async Task<AccountViewModel> ActivateAccount(int id)
-        {
-            var account = await _accountRepository.GetByIdAsync(id);
-
-
-            account.Last_Update_Date = DateTime.Now;
-
-            await _accountRepository.UpdateAsync(account);
-
-            var accountView = new AccountViewModel
-            {
-                Id = account.Id,
-                First_Name = account.First_Name,
-                Last_Name = account.Last_Name,
-                Create_Date = account.Create_Date,
-                Last_Update_Date = account.Last_Update_Date,
-            };
-            return accountView;
+                throw new Exception("ERR-01X02 Falha interna no servidor");
+            }
         }
 
         public async Task<AccountViewModel> GetById(int id)
         {
-            var account = await _accountRepository.GetByIdAsync(id);
-            
-            if (account == null)
-                return null;
-
-            var accountView = new AccountViewModel
+            try
             {
-                Id = account.Id,
-                First_Name = account.First_Name
-            };
+                var account = await _accountRepository.GetByIdAsync(id);
 
-            return accountView;
+                if (account == null)
+                    return null;
+
+                return _mapper.Map<AccountViewModel>(account);
+            }
+            catch
+            {
+                throw new Exception("ERR-01X03 Falha interna no servidor");
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using UserApi.Api.Extensions;
 using UserApi.Applications.InputModels;
 using UserApi.Applications.Interfaces;
 using UserApi.Applications.ViewModels;
+using UserApi.Domain.Exceptions;
 
 namespace UserApi.Api.Controllers
 {
@@ -17,7 +18,7 @@ namespace UserApi.Api.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("/account")]
+        [HttpPost]
         public async Task<IActionResult> AddAccount([FromBody] AccountInputModel inputAccount)
         {
             try
@@ -28,56 +29,35 @@ namespace UserApi.Api.Controllers
                 var account = await _accountService.AddAccount(inputAccount);
                 return Created($"/account/{account.Id}", new ResultViewModel<AccountViewModel>(account));
             }
-            catch
+            catch(Exception e)
             {
-                return StatusCode(500, new ResultViewModel<List<AccountViewModel>>("ERR-05X011 Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
             }
         }
 
 
-        [HttpGet("/{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAccountId([FromRoute] int id)
         {
             try
             {
                 var account = await _accountService.GetById(id);
-                return Ok(account);
+
+                if(account == null)
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X01 Cadastro não encontrado"));
+
+                return Ok(new ResultViewModel<AccountViewModel>(account));
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Erro");
+                return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
             }
         }
 
         
 
-        [HttpPut("/DisableAccount/{id:int}")]
-        public async Task<IActionResult> DisableAccount([FromRoute] int id)
-        {
-            try
-            {
-                var account = await _accountService.DisableAccount(id);
-                return Ok(account);
-            }
-            catch
-            {
-                return BadRequest("Erro");
-            }
-        }
 
-        [HttpPut("/ActivateAccount/{id:int}")]
-        public async Task<IActionResult> ActivateAccount([FromRoute] int id)
-        {
-            try
-            {
-                var account = await _accountService.ActivateAccount(id);
-                return Ok(account);
-            }
-            catch
-            {
-                return BadRequest("Erro");
-            }
-        }
+       
 
 
     }

@@ -12,7 +12,5 @@ namespace UserApi.Applications.Interfaces
     {
         Task<AccountViewModel> GetById(int id);
         Task<AccountViewModel> AddAccount(AccountInputModel account);
-        Task<AccountViewModel> DisableAccount(int id);
-        Task<AccountViewModel> ActivateAccount(int id);
     }
 }
