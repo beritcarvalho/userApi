@@ -54,7 +54,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
-        [HttpPut()]
+        [HttpPut]
         public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountInputModel inputAccount)
         {
             try
@@ -66,9 +66,27 @@ namespace UserApi.Api.Controllers
                 var account = await _accountService.UpdateAccount(inputAccount);
 
                 if (account == null)
-                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X01 Cadastro não encontrado"));
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X02 Cadastro não encontrado"));
 
                 return Ok(new ResultViewModel<AccountViewModel>(account)); ;
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> RemoveAccount([FromRoute] int id)
+        {
+            try
+            {
+                var account = await _accountService.RemoveById(id);
+
+                if (account == null)
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X03 Cadastro não encontrado"));
+
+                return Ok(new ResultViewModel<AccountViewModel>(account));
             }
             catch (Exception e)
             {

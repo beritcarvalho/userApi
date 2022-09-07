@@ -13,5 +13,6 @@ namespace UserApi.Applications.Interfaces
         Task<AccountViewModel> GetById(int id);
         Task<AccountViewModel> AddAccount(AccountInputModel accountInput);
         Task<AccountViewModel> UpdateAccount(UpdateAccountInputModel accountInput);
+        Task<AccountViewModel> RemoveById(int id);
     }
 }
