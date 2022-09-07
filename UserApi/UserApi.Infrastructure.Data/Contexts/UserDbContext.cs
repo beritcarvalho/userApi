@@ -12,12 +12,16 @@ namespace UserApi.Infrastructure.Data.Contexts
         }
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new AccountConfiguration());
+
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }
