@@ -12,9 +12,6 @@ namespace UserApi.Applications.ViewModels
         public string First_Name { get; set; }
         public string Last_Name { get; set; }
         public DateTime Create_Date { get; set; }
-        public bool Active { get; set; }
-        public DateTime? Inactive_Date { get; set; }
-        public DateTime? Activation_Date { get; set; }
         public DateTime? Last_Update_Date { get; set; }
     }
 }

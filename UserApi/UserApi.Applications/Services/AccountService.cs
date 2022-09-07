@@ -57,5 +57,31 @@ namespace UserApi.Applications.Services
                 throw new Exception("ERR-01X03 Falha interna no servidor");
             }
         }
+
+        public async Task<AccountViewModel> UpdateAccount(UpdateAccountInputModel accountInput)
+        {
+            try
+            {
+                var account = await _accountRepository.GetByIdAsync(accountInput.Id);
+
+                if (account == null)
+                    return null;
+
+                _mapper.Map(accountInput, account);
+
+                account.Last_Update_Date = DateTime.Now;
+
+                await _accountRepository.UpdateAsync(account);
+                return _mapper.Map<AccountViewModel>(account);
+            }
+            catch (DbUpdateException e)
+            {
+                throw new Exception("ERR-01X04 Não foi possível realizar o cadastro");
+            }
+            catch
+            {
+                throw new Exception("ERR-01X05 Falha interna no servidor");
+            }
+        }
     }
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace UserApi.Applications.InputModels
 {
-    public class UpdateAccountInputModel
+    public class UpdateAccountInputModel : AccountInputModel
     {
+        [Required]
         public int Id { get; set; }
-        public bool? Active { get; set; }
-        public DateTime? Inactive_Date { get; set; }
     }
 }

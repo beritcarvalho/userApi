@@ -11,6 +11,7 @@ namespace UserApi.Applications.Interfaces
     public interface IAccountService
     {
         Task<AccountViewModel> GetById(int id);
-        Task<AccountViewModel> AddAccount(AccountInputModel account);
+        Task<AccountViewModel> AddAccount(AccountInputModel accountInput);
+        Task<AccountViewModel> UpdateAccount(UpdateAccountInputModel accountInput);
     }
 }

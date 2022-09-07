@@ -54,10 +54,32 @@ namespace UserApi.Api.Controllers
             }
         }
 
-        
+        [HttpPut()]
+        public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountInputModel inputAccount)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ResultViewModel<AccountInputModel>(ModelState.GetErrors()));
 
 
-       
+                var account = await _accountService.UpdateAccount(inputAccount);
+
+                if (account == null)
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X01 Cadastro não encontrado"));
+
+                return Ok(new ResultViewModel<AccountViewModel>(account)); ;
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
+            }
+        }
+
+
+
+
+
 
 
     }
