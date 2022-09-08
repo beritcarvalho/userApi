@@ -28,11 +28,13 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
         private static void AddRepositoriesInfra(IServiceCollection services)
         {
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public static void AddServicesInfra(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

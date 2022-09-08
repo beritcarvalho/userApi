@@ -34,9 +34,8 @@ namespace UserApi.Domain.Entities
             #endregion
 
             #region Indexes
-
-            /*builder.HasIndex(x => x.Name, "IX_Role_Name")
-                .IsUnique();*/
+            builder.HasIndex(x => x.Name, "IX_Role_Name")
+                .IsUnique();
             #endregion
 
             # region PopulationData

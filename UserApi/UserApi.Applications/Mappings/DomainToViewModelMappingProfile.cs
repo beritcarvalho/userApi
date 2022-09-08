@@ -20,6 +20,12 @@ namespace UserApi.Applications.Mappings
             //Insrindo os dados de account em InputModel
             CreateMap<Account, AccountInputModel>().ReverseMap();
 
+            // Inserindo os dados em account em viewModel
+            CreateMap<User, UserViewModel>();
+
+            //Insrindo os dados de account em InputModel
+            CreateMap<User, UserInputModel>().ReverseMap();
+
         }
     }
 }
