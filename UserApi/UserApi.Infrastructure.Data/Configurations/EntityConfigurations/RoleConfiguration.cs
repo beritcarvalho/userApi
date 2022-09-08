@@ -35,8 +35,8 @@ namespace UserApi.Domain.Entities
 
             #region Indexes
 
-            builder.HasIndex(x => x.Name, "IX_Role_Name")
-                .IsUnique();
+            /*builder.HasIndex(x => x.Name, "IX_Role_Name")
+                .IsUnique();*/
             #endregion
 
             # region PopulationData
@@ -49,6 +49,16 @@ namespace UserApi.Domain.Entities
                 new Role
                 {
                     Id = 2,
+                    Name = "Manager"
+                },
+                new Role
+                {
+                    Id = 3,
+                    Name = "Sub-Manager"
+                },
+                new Role
+                {
+                    Id = 4,
                     Name = "Doorman"
                 });
             #endregion
