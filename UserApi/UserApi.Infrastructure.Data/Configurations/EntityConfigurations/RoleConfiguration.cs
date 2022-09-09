@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using UserApi.Domain.Entities;
 
-namespace UserApi.Domain.Entities
+namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
 {
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

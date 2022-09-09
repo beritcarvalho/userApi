@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserApi.Api.Extensions;
+using UserApi.Api.Filters.ViewModels;
 using UserApi.Applications.InputModels;
 using UserApi.Applications.Interfaces;
 using UserApi.Applications.ViewModels;
-using UserApi.Domain.Exceptions;
 
 namespace UserApi.Api.Controllers
 {

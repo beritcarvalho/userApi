@@ -18,7 +18,9 @@ namespace UserApi.Applications.Mappings
             CreateMap<Account, AccountViewModel>();
 
             //Insrindo os dados de account em InputModel
-            CreateMap<Account, AccountInputModel>().ReverseMap();
+            CreateMap<AccountInputModel, Account>()
+                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone.Ddd + src.Phone.Number))
+                .ReverseMap();
 
             // Inserindo os dados em account em viewModel
             CreateMap<User, UserViewModel>();

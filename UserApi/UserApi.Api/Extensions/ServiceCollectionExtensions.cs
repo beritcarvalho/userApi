@@ -1,4 +1,7 @@
-﻿using UserApi.Applications.Interfaces;
+﻿using FluentValidation.AspNetCore;
+using System.Globalization;
+using UserApi.Api.Filters.Validators;
+using UserApi.Applications.Interfaces;
 using UserApi.Applications.Services;
 using UserApi.Domain.Interfaces;
 using UserApi.Infrastructure.Data.Repositories;
@@ -11,7 +14,12 @@ namespace UserApi.Api.Extensions
         {
             services
                 .AddControllers()
-                .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
+                    .AddFluentValidation(config => {
+                        config.RegisterValidatorsFromAssemblyContaining<AccountInputModelValidator>();
+                        config.ValidatorOptions.LanguageManager.Culture = new CultureInfo("pt-BR");
+                    })
+                    .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });
+
 
             services.AddAutoMapperConfiguration();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Linq;
 
 namespace UserApi.Api.Extensions
 {
@@ -7,8 +8,11 @@ namespace UserApi.Api.Extensions
         public static List<string> GetErrors(this ModelStateDictionary modelState)
         {
             var errors = new List<string>();
-            foreach (var value in modelState.Values)
-                errors.AddRange(value.Errors.Select(error => error.ErrorMessage));
+            foreach (var state in modelState)
+            {
+                var key = string.IsNullOrEmpty(state.Key) ? "Property" : state.Key;
+                errors.AddRange(state.Value.Errors.Select(error => string.Format("{0}: {1}", key, error.ErrorMessage)));
+            }
 
             return errors;
         }

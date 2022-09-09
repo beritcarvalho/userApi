@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserApi.Applications.ViewModels
+namespace UserApi.Api.Filters.ViewModels
 {
     public class ResultViewModel<T>
     {
