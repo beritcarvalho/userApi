@@ -33,7 +33,7 @@ namespace UserApi.Applications.Validators
                         .DependentRules(() =>
                         {
                             RuleFor(phone => phone.Number)
-                                .Length(8, 9).WithMessage("O Numero do Telefone entre 8 a 9 caracteres");
+                                .Length(8, 9).WithMessage("O Numero do Telefone conter 8 a 9 caracteres");
                         });
                 });
         }
