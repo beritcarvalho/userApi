@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserApi.Applications.InputModels;
-using UserApi.Applications.ViewModels;
+using UserApi.Applications.Dtos.InputModels;
+using UserApi.Applications.Dtos.ViewModels;
 
 namespace UserApi.Applications.Interfaces
 {
@@ -12,7 +12,7 @@ namespace UserApi.Applications.Interfaces
     {
         Task<AccountViewModel> GetById(int id);
         Task<AccountViewModel> AddAccount(AccountInputModel accountInput);
-        Task<AccountViewModel> UpdateAccount(UpdateAccountInputModel accountInput);
+        Task<AccountViewModel> UpdateAccount(AccountInputModel accountInput);
         Task<AccountViewModel> RemoveById(int id);
     }
 }

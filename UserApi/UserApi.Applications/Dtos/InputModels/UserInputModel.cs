@@ -1,8 +1,8 @@
 ﻿using UserApi.Domain.Entities;
 
-namespace UserApi.Applications.ViewModels
+namespace UserApi.Applications.Dtos.InputModels
 {
-    public class UserViewModel
+    public class UserInputModel
     {
         public int Id { get; set; }
         public string Login { get; set; }

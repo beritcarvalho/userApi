@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserApi.Api.Extensions;
 using UserApi.Api.Filters.ViewModels;
-using UserApi.Applications.InputModels;
+using UserApi.Applications.Dtos.InputModels;
+using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
-using UserApi.Applications.ViewModels;
 
 namespace UserApi.Api.Controllers
 {
@@ -24,7 +24,10 @@ namespace UserApi.Api.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                { 
+             
                     return BadRequest(new ResultViewModel<AccountInputModel>(ModelState.GetErrors()));
+                }
 
                 var account = await _accountService.AddAccount(inputAccount);
                 return Created($"/account/{account.Id}", new ResultViewModel<AccountViewModel>(account));
@@ -55,7 +58,7 @@ namespace UserApi.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountInputModel inputAccount)
+        public async Task<IActionResult> UpdateAccount([FromBody] AccountInputModel inputAccount)
         {
             try
             {

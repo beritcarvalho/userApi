@@ -1,6 +1,6 @@
 ﻿using UserApi.Domain.Entities;
 
-namespace UserApi.Applications.InputModels
+namespace UserApi.Applications.Dtos.InputModels
 {
     public class UpdateUserInputModel
     {

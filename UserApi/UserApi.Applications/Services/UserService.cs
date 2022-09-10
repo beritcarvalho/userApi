@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using UserApi.Applications.InputModels;
+using UserApi.Applications.Dtos.InputModels;
+using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
-using UserApi.Applications.ViewModels;
 using UserApi.Domain.Entities;
 using UserApi.Domain.Interfaces;
 

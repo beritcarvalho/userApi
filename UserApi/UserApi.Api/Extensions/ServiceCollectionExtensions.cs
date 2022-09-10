@@ -1,8 +1,8 @@
 ﻿using FluentValidation.AspNetCore;
 using System.Globalization;
-using UserApi.Api.Filters.Validators;
 using UserApi.Applications.Interfaces;
 using UserApi.Applications.Services;
+using UserApi.Applications.Validators;
 using UserApi.Domain.Interfaces;
 using UserApi.Infrastructure.Data.Repositories;
 
