@@ -8,6 +8,6 @@ namespace UserApi.Applications.Dtos.InputModels
         public Name Name { get; set; }
         public Cpf Cpf { get; set; }
         public Phone Phone { get; set; }
-        public Email Email { get; set; }
+        public Email? Email { get; set; }
     }
 }

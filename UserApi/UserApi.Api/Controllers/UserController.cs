@@ -4,6 +4,7 @@ using UserApi.Api.Filters.ViewModels;
 using UserApi.Applications.Dtos.InputModels;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
+using UserApi.Domain.Exceptions;
 
 namespace UserApi.Api.Controllers
 {
@@ -27,24 +28,27 @@ namespace UserApi.Api.Controllers
                     return BadRequest(new ResultViewModel<UserInputModel>(ModelState.GetErrors()));
 
                 var user = await _userService.AddUser(inputUser);
-                return Created($"/user/{user.Id}", new ResultViewModel<UserViewModel>(user));
+                return Created($"/user/{user.Id}", new ResultViewModel<UserAddViewModel>(user));
             }
-            catch(Exception e)
+            catch (UserException e)
+            {
+                return NotFound(new ResultViewModel<List<UserViewModel>>(e.Message)); ;
+            }
+            catch (Exception e)
             {
                 return StatusCode(500, new ResultViewModel<List<UserViewModel>>(e.Message));
             }
         }
-
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserId([FromRoute] int id)
         {
             try
             {
-                var user = await _userService.GetUserById(id);
+                var user = await _userService.GetUserByIdWithInclude(id);
 
                 if(user == null)
-                    return NotFound(new ResultViewModel<List<UserViewModel>>("ERR-02X01 Cadastro não encontrado"));
+                    return NotFound(new ResultViewModel<List<UserViewModel>>("ERR-C02X01 Cadastro não encontrado"));
 
                 return Ok(new ResultViewModel<UserViewModel>(user));
             }
@@ -55,7 +59,7 @@ namespace UserApi.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserInputModel inputUser)
+        public async Task<IActionResult> UpdateUser([FromBody] UserInputModel inputUser)
         {
             try
             {

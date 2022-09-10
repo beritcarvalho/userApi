@@ -29,7 +29,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
             builder.Property(role => role.Name)
                 .IsRequired()
                 .HasColumnName("Name")
-                .HasColumnType("NCHAR(20)")
+                .HasColumnType("NVARCHAR(20)")
                 .HasMaxLength(20)
                 .HasComment("Nome da Função do Usuário");
             #endregion
@@ -44,22 +44,27 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                 new Role
                 {
                     Id = 1,
-                    Name = "Admin"
+                    Name = "admin"
                 },
                 new Role
                 {
                     Id = 2,
-                    Name = "Manager"
+                    Name = "manager"
                 },
                 new Role
                 {
                     Id = 3,
-                    Name = "Sub-Manager"
+                    Name = "sub-Manager"
                 },
                 new Role
                 {
                     Id = 4,
-                    Name = "Doorman"
+                    Name = "doorman"
+                },
+                new Role
+                {
+                    Id = 5,
+                    Name = "resident"
                 });
             #endregion
         }

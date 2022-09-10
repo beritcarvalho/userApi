@@ -47,7 +47,7 @@ namespace UserApi.Api.Controllers
                 var account = await _accountService.GetById(id);
 
                 if(account == null)
-                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X01 Cadastro não encontrado"));
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-C02X01 Cadastro não encontrado"));
 
                 return Ok(new ResultViewModel<AccountViewModel>(account));
             }
@@ -69,7 +69,7 @@ namespace UserApi.Api.Controllers
                 var account = await _accountService.UpdateAccount(inputAccount);
 
                 if (account == null)
-                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X02 Cadastro não encontrado"));
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-C02X01 Cadastro não encontrado"));
 
                 return Ok(new ResultViewModel<AccountViewModel>(account)); ;
             }
@@ -87,7 +87,7 @@ namespace UserApi.Api.Controllers
                 var account = await _accountService.RemoveById(id);
 
                 if (account == null)
-                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-02X03 Cadastro não encontrado"));
+                    return NotFound(new ResultViewModel<List<AccountViewModel>>("ERR-C02X01 Cadastro não encontrado"));
 
                 return Ok(new ResultViewModel<AccountViewModel>(account));
             }
@@ -96,12 +96,5 @@ namespace UserApi.Api.Controllers
                 return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
             }
         }
-
-
-
-
-
-
-
     }
 }

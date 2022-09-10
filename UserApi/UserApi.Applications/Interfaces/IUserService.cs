@@ -10,9 +10,9 @@ namespace UserApi.Applications.Interfaces
 {
     public interface IUserService
     {
-        Task<UserViewModel> GetUserById(int id);
-        Task<UserViewModel> AddUser(UserInputModel accountInput);
-        Task<UserViewModel> UpdateUser(UpdateUserInputModel accountInput);
+        Task<UserViewModel> GetUserByIdWithInclude(int id);
+        Task<UserAddViewModel> AddUser(UserInputModel accountInput);
+        Task<UserViewModel> UpdateUser(UserInputModel accountInput);
         Task<UserViewModel> RemoveUserById(int id);
     }
 }
