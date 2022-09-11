@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 using UserApi.Applications.Dtos.InputModels;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
@@ -26,11 +27,11 @@ namespace UserApi.Applications.Services
             _mapper = mapper;
         }
 
-        public async Task<UserAddViewModel> AddUser(UserInputModel UserInput)
+        public async Task<UserAddViewModel> AddUser(UserInputModel userInput)
         {
             try
             {
-                var user = _mapper.Map<User>(UserInput);
+                var user = _mapper.Map<User>(userInput);
 
                 var account = await _AccountRepository.GetByIdAsync(user.Acco_Id);
 
@@ -73,12 +74,12 @@ namespace UserApi.Applications.Services
         {
             try
             {
-                var User = await _UserRepository.GetUserByIdAsync(id);
+                var user = await _UserRepository.GetUserByIdWithIncludeAsync(id);
 
-                if (User == null)
+                if (user == null)
                     return null;
 
-                return _mapper.Map<UserViewModel>(User);
+                return _mapper.Map<UserViewModel>(user);
             }
             catch
             {
@@ -86,52 +87,48 @@ namespace UserApi.Applications.Services
             }
         }
 
-        public async Task<UserViewModel> UpdateUser(UserInputModel UserInput)
+        public async Task<UserActiveViewModel> ActiveUser(int id)
         {
-            try
-            {
-                var User = await _UserRepository.GetByIdAsync(UserInput.Id);
+            var user = await _UserRepository.GetByIdAsync(id);
 
-                if (User == null)
-                    return null;
+            if (user == null)
+                throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                _mapper.Map(UserInput, User);
+            user.Active = true;
+            user.Active_Date = DateTime.Now;
+            user.Last_Update_Date = DateTime.Now;
 
-                User.Last_Update_Date = DateTime.Now;
-
-                await _UserRepository.UpdateAsync(User);
-                return _mapper.Map<UserViewModel>(User);
-            }
-            catch (DbUpdateException e)
-            {
-                throw new Exception("ERR-01X04 Não foi possível atualizar o cadastro");
-            }
-            catch
-            {
-                throw new Exception("ERR-01X05 Falha interna no servidor");
-            }
+            return _mapper.Map<UserActiveViewModel>(user); ;
         }
 
-        public async Task<UserViewModel> RemoveUserById(int id)
+        public async Task<UserInactiveViewModel> InactiveUser(int id)
         {
-            try
-            {
-                var User = await _UserRepository.GetByIdAsync(id);
+            var user = await _UserRepository.GetByIdAsync(id);
 
-                if (User == null)
-                    return null;
+            if (user == null)
+                throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                await _UserRepository.RemoveAsync(User);
-                return _mapper.Map<UserViewModel>(User);
-            }
-            catch(DbUpdateException e)
-            {
-                throw new Exception("ERR-01X06 Não foi possível realizar o cadastro");
-            }
-            catch
-            {
-                throw new Exception("ERR-01X07 Falha interna no servidor");
-            }
+            user.Active = false;
+            user.Inactive_Date = DateTime.Now;
+            user.Last_Update_Date = DateTime.Now;
+
+            return _mapper.Map<UserInactiveViewModel>(user); 
+        }
+
+        public async Task<ChangePasswordViewModel> ChangePassword(ForgetInputModel input)
+        {
+            var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
+            var user = await _UserRepository.GetUserForChangePassword(input.Login, input.Cpf.Number, phone);
+            var changePassword =  _mapper.Map<ChangePasswordViewModel>(user);
+            changePassword.Success = true;
+            return changePassword;
+        }
+
+        public async Task<ForgetUserViewModel> GetUserName(ForgetInputModel input)
+        {
+            var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
+            var user = await _UserRepository.GetUserForLoginForget(input.Cpf.Number, phone);
+            return _mapper.Map<ForgetUserViewModel>(user);
         }
     }
 }

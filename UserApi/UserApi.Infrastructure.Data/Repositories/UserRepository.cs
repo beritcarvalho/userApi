@@ -18,14 +18,36 @@ namespace UserApi.Infrastructure.Data.Repositories
             Context = context;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdWithIncludeAsync(int id)
         {
             var user = await Context
                 .Users
                 .Where(user => user.Id == id)
                 .Include(user => user.Account)
                 .Include(user => user.Role)
-                .FirstOrDefaultAsync(user => user.Id == id);
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<User> GetUserForChangePassword(string cpf, string login, string phone)
+        {
+            var user = await Context
+                .Users
+                .Where(user => user.Login == login && user.Account.Cpf == cpf && phone == phone)
+                .Include(user => user.Account)
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<User> GetUserForLoginForget(string cpf, string phone)
+        {
+            var user = await Context
+                .Users
+                .Where(user => user.Account.Cpf == cpf && phone == phone)
+                .Include(user => user.Account)
+                .FirstOrDefaultAsync();
 
             return user;
         }

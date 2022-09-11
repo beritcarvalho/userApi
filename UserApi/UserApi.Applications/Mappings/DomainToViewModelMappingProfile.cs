@@ -45,6 +45,7 @@ namespace UserApi.Applications.Mappings
                 .ForMember(user => user.Acco_Id, options => options.MapFrom(userInput => userInput.Account_Id))
                 .ReverseMap();
 
+            CreateMap<User, ChangePasswordViewModel>();
             CreateMap<Role, RoleViewModel>();
 
             CreateMap<List<Role>, RoleViewModel>();
