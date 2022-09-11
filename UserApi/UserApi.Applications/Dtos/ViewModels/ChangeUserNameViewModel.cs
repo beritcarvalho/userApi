@@ -1,9 +1,12 @@
-﻿using UserApi.Applications.Dtos.ValueObjects;
-using UserApi.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace UserApi.Applications.Dtos.ViewModels
 {
-    public class ChangePasswordViewModel
+    public class ChangeUserNameViewModel
     {
         public int Id { get; set; }
         public string Login { get; set; }

@@ -69,7 +69,6 @@ namespace UserApi.Applications.Services
                 throw new Exception("ERR-01X02 Falha interna no servidor");
             }
         }
-
         public async Task<UserViewModel> GetUserByIdWithInclude(int id)
         {
             try
@@ -77,58 +76,70 @@ namespace UserApi.Applications.Services
                 var user = await _UserRepository.GetUserByIdWithIncludeAsync(id);
 
                 if (user == null)
-                    return null;
+                    throw new UserException("ERR-03X01 Cadastrado não encontrado");
 
                 return _mapper.Map<UserViewModel>(user);
+            }
+            catch (UserException e)
+            {
+                throw e;
             }
             catch
             {
                 throw new Exception("ERR-01X03 Falha interna no servidor");
             }
         }
-
         public async Task<UserActiveViewModel> ActiveUser(int id)
         {
-            var user = await _UserRepository.GetByIdAsync(id);
+            try
+            {
+                var user = await _UserRepository.GetByIdAsync(id);
 
-            if (user == null)
-                throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
+                if (user == null)
+                    throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-            user.Active = true;
-            user.Active_Date = DateTime.Now;
-            user.Last_Update_Date = DateTime.Now;
+                user.Active = true;
+                user.Active_Date = DateTime.Now;
+                user.Last_Update_Date = DateTime.Now;
 
-            return _mapper.Map<UserActiveViewModel>(user); ;
+                await _UserRepository.UpdateAsync(user);
+
+                return _mapper.Map<UserActiveViewModel>(user);
+            }
+            catch (UserException e)
+            {
+                throw e;
+            }
+            catch
+            {
+                throw new Exception("ERR-01X03 Falha interna no servidor");
+            }
         }
-
         public async Task<UserInactiveViewModel> InactiveUser(int id)
         {
-            var user = await _UserRepository.GetByIdAsync(id);
+            try
+            {
+                var user = await _UserRepository.GetByIdAsync(id);
 
-            if (user == null)
-                throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
+                if (user == null)
+                    throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-            user.Active = false;
-            user.Inactive_Date = DateTime.Now;
-            user.Last_Update_Date = DateTime.Now;
+                user.Active = false;
+                user.Inactive_Date = DateTime.Now;
+                user.Last_Update_Date = DateTime.Now;
 
-            return _mapper.Map<UserInactiveViewModel>(user); 
-        }
+                await _UserRepository.UpdateAsync(user);
 
-        public async Task<ChangePasswordViewModel> ChangePassword(ForgetInputModel input)
-        {
-            var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
-            var user = await _UserRepository.GetUserForChangePassword(input.Login, input.Cpf.Number, phone);
-            var changePassword =  _mapper.Map<ChangePasswordViewModel>(user);
-            changePassword.Success = true;
-            return changePassword;
-        }
-
-        public async Task<ForgetUserViewModel> GetUserName(ForgetInputModel input)
-        {
-            var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
-            var user = await _UserRepository.GetUserForLoginForget(input.Cpf.Number, phone);
-            return _mapper.Map<ForgetUserViewModel>(user);
+                return _mapper.Map<UserInactiveViewModel>(user);
+            }
+            catch (UserException e)
+            {
+                throw e;
+            }
+            catch
+            {
+                throw new Exception("ERR-01X03 Falha interna no servidor");
+            }
         }
     }
 }

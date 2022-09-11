@@ -9,8 +9,10 @@ using UserApi.Applications.Dtos.ViewModels;
 namespace UserApi.Applications.Interfaces
 {
     public interface IUserService
-    {
-      
+    {      
         Task<UserAddViewModel> AddUser(UserInputModel userInput);
+        Task<UserViewModel> GetUserByIdWithInclude(int id);
+        Task<UserActiveViewModel> ActiveUser(int id);
+        Task<UserInactiveViewModel> InactiveUser(int id);
     }
 }

@@ -15,10 +15,9 @@ namespace UserApi.Applications.Mappings
     {
         public DomainToViewModelMappingProfile()
         {
-            // Inserindo os dados em account em viewModel
+            #region MapeamentoAccountService
             CreateMap<Account, AccountViewModel>();
-
-            //Mapamento AccountInputModel para Account
+            
             CreateMap<AccountInputModel, Account>()
                 .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Name.First_Name))
                 .ForMember(dest => dest.Last_Name, opt => opt.MapFrom(src => src.Name.Last_Name))
@@ -26,29 +25,35 @@ namespace UserApi.Applications.Mappings
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone.Ddd + src.Phone.Number))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.EmailAddress))
                 .ReverseMap();
+            #endregion
 
-            
-            //Mapamento User para UserAddView
-            CreateMap<User, UserAddViewModel>()
-                .ForPath(userView => userView.Name.First_Name, options => options.MapFrom(user => user.Account.First_Name))
-                .ForPath(userView => userView.Name.Last_Name, options => options.MapFrom(user => user.Account.Last_Name))
-                .ForPath(userView => userView.Role, options => options.MapFrom(user => user.Role.Name));
-
-            //Mapamento User para UserView
-            CreateMap<User, UserViewModel>()           
-                .ForPath(userView => userView.Name.First_Name, options => options.MapFrom(user => user.Account.First_Name))
-                .ForPath(userView => userView.Name.Last_Name, options => options.MapFrom(user => user.Account.Last_Name))
-                .ForPath(userView => userView.Role, options => options.MapFrom(user => user.Role.Name));
-
-            //Insrindo os dados de account em InputModel
+            #region MapeamentoUserService
             CreateMap<UserInputModel, User>()
-                .ForMember(user => user.Acco_Id, options => options.MapFrom(userInput => userInput.Account_Id))
-                .ReverseMap();
+                .ForMember(dest => dest.Acco_Id, opt => opt.MapFrom(src => src.Account_Id));
 
+            CreateMap<User, UserAddViewModel >()
+                .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Account.First_Name))
+                .ForMember(dest => dest.Last_Name, opt => opt.MapFrom(src => src.Account.Last_Name))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+
+            CreateMap<User, UserViewModel>()
+                .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Account.First_Name))
+                .ForMember(dest => dest.Last_Name, opt => opt.MapFrom(src => src.Account.Last_Name))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+
+            CreateMap<User, UserActiveViewModel>();
+            CreateMap<User, UserInactiveViewModel>();
             CreateMap<User, ChangePasswordViewModel>();
+            CreateMap<User, RecoveryPasswordViewModel>();
+            CreateMap<User, RecoveryUsernameViewModel>();
+            CreateMap<User, ChangeUserNameViewModel>();
+            #endregion
+
+            #region MapeamentoRoleService
             CreateMap<Role, RoleViewModel>();
 
             CreateMap<List<Role>, RoleViewModel>();
+            #endregion
 
 
         }

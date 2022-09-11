@@ -3,10 +3,8 @@ using UserApi.Domain.Entities;
 
 namespace UserApi.Applications.Dtos.ViewModels
 {
-    public class ChangePasswordViewModel
+    public class RecoveryUsernameViewModel
     {
-        public int Id { get; set; }
         public string Login { get; set; }
-        public bool Success { get; set; }
     }
 }

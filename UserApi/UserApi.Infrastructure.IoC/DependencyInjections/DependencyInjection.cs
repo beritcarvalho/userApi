@@ -37,6 +37,7 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IRecoveryService, RecoveryService>();
         }
     }
 }

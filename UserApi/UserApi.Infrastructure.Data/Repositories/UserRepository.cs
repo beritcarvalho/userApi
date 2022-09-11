@@ -45,7 +45,18 @@ namespace UserApi.Infrastructure.Data.Repositories
         {
             var user = await Context
                 .Users
-                .Where(user => user.Account.Cpf == cpf && phone == phone)
+                .Where(user => user.Account.Cpf == cpf && user.Account.Phone == phone)
+                .Include(user => user.Account)
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<User> GetUserForChangeUserName(string cpf, string login)
+        {
+            var user = await Context
+                .Users
+                .Where(user => user.Account.Cpf == cpf && user.Login == login)
                 .Include(user => user.Account)
                 .FirstOrDefaultAsync();
 
