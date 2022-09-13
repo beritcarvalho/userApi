@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SecureIdentity.Password;
 using System.Security.Principal;
 using UserApi.Applications.Dtos.InputModels;
 using UserApi.Applications.Dtos.ViewModels;
@@ -52,6 +53,7 @@ namespace UserApi.Applications.Services
 
                 user.Create_Date = DateTime.Now;
                 user.Last_Update_Date = DateTime.Now;
+                user.Password_Hash = PasswordHasher.Hash(user.Password_Hash);
 
                 await _UserRepository.InsertAsync(user);
                 return _mapper.Map<UserAddViewModel>(user);

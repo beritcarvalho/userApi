@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SecureIdentity.Password;
 using UserApi.Applications.Dtos.InputModels;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
@@ -31,6 +32,7 @@ namespace UserApi.Applications.Services
                 var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
                 var user = await _UserRepository.GetUserForChangePassword(input.Cpf.Number, input.Login, phone);
 
+
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
@@ -56,9 +58,10 @@ namespace UserApi.Applications.Services
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                if (user.Password_Hash == input.Old_Password)
+                if (PasswordHasher.Verify(user.Password_Hash, input.Old_Password))
                 {
-                    user.Password_Hash = input.New_Password;
+
+                    user.Password_Hash = PasswordHasher.Hash(input.New_Password);
                     user.Last_Update_Date = DateTime.Now;
 
                     await _UserRepository.UpdateAsync(user);
@@ -103,7 +106,7 @@ namespace UserApi.Applications.Services
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                if (user.Password_Hash == input.Password_Hash)
+                if (PasswordHasher.Verify(user.Password_Hash, input.Password_Hash))
                 {
                     user.Login = input.NewLogin;
                     user.Last_Update_Date = DateTime.Now;
