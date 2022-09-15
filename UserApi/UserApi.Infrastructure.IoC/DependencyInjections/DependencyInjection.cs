@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using sib_api_v3_sdk.Client;
 using UserApi.Applications.Interfaces;
 using UserApi.Applications.Services;
 using UserApi.Domain.Interfaces;
@@ -17,7 +18,6 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             #endregion
-
 
             AddRepositoriesInfra(services);
             AddServicesInfra(services);
@@ -38,6 +38,12 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IRecoveryService, RecoveryService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+        }
+
+        public static void LoadConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {            
+            Configuration.Default.ApiKey.Add("api-key", configuration.GetSection("SendGrid").GetSection("SendGridKey").Value);
         }
     }
 }

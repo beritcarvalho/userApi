@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SecureIdentity.Password;
 using UserApi.Applications.Dtos.InputModels;
+using UserApi.Applications.Dtos.ValueObjects;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
 using UserApi.Domain.Exceptions;
@@ -14,18 +15,22 @@ namespace UserApi.Applications.Services
         private readonly IAccountRepository _AccountRepository;
         private readonly IRoleRepository _RoleRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _sendgrid;
+
         public RecoveryService(IUserRepository userRepository,
             IAccountRepository accountRepository,
             IRoleRepository roleRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IEmailSender sendgrid)
         {
             _UserRepository = userRepository;
             _AccountRepository = accountRepository;
             _RoleRepository = roleRepository;
             _mapper = mapper;
+            _sendgrid =  sendgrid;
         }
 
-        public async Task<RecoveryPasswordViewModel> GetPassword(RecoveryPasswordInputModel input)
+        public async Task<RecoveryPasswordViewModel> ForgetPassword(RecoveryPasswordInputModel input)
         {
             try
             {
@@ -35,6 +40,17 @@ namespace UserApi.Applications.Services
 
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
+
+                var passwordHash = PasswordGenerator.Generate(10, true, false);
+
+                var name = new Name();
+                name.First_Name = user.Account.First_Name;
+                name.Last_Name = user.Account.Last_Name;
+
+                await _sendgrid.SendEmailAsync(name, passwordHash, user.Account.Email);               
+           
+                user.Password_Hash = PasswordHasher.Hash(passwordHash);
+                await _UserRepository.UpdateAsync(user);
 
                 var changePassword = _mapper.Map<RecoveryPasswordViewModel>(user);
                 return changePassword;

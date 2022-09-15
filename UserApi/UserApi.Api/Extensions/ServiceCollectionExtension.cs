@@ -8,14 +8,14 @@ using UserApi.Infrastructure.Data.Repositories;
 
 namespace UserApi.Api.Extensions
 {
-    public static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services
                 .AddControllers()
                     .AddFluentValidation(config => {
-                        config.RegisterValidatorsFromAssemblyContaining<AccountInputModelValidator>();
+                        config.RegisterValidatorsFromAssemblyContaining<Program>();
                         config.ValidatorOptions.LanguageManager.Culture = new CultureInfo("pt-BR");
                     })
                     .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; });

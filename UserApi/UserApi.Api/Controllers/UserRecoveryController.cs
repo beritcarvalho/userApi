@@ -20,12 +20,12 @@ namespace UserApi.Api.Controllers
         }
 
 
-        [HttpGet("passwords")]
-        public async Task<IActionResult> RecoveryPassword([FromQuery]RecoveryPasswordInputModel inputModel)
+        [HttpPut("passwords/forget")]
+        public async Task<IActionResult> RecoveryPassword([FromBody]RecoveryPasswordInputModel inputModel)
         {
             try
             {
-                var user = await _RecoveryService.GetPassword(inputModel);
+                var user = await _RecoveryService.ForgetPassword(inputModel);
 
                 return Ok(new ResultViewModel<RecoveryPasswordViewModel>(user));
             }

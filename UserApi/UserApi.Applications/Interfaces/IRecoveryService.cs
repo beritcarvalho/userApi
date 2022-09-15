@@ -10,7 +10,7 @@ namespace UserApi.Applications.Interfaces
 {
     public interface IRecoveryService
     {
-        Task<RecoveryPasswordViewModel> GetPassword(RecoveryPasswordInputModel input);
+        Task<RecoveryPasswordViewModel> ForgetPassword(RecoveryPasswordInputModel input);
         Task<ChangePasswordViewModel> ChangePassword(ChangePasswordInputModel input);
         Task<RecoveryUsernameViewModel> GetUserName(RecoveryUserNameInputModel input);
         Task<ChangeUserNameViewModel> ChangeUserName(ChangeUserNameInputModel input);

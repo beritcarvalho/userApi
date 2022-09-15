@@ -1,4 +1,6 @@
+using sib_api_v3_sdk.Client;
 using UserApi.Api.Extensions;
+using UserApi.Applications.Services;
 using UserApi.Infrastructure.IoC.DependencyInjections;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,9 @@ builder.Services.AddServices();
 //Extension
 builder.Services.AddInfrastructure(builder.Configuration);
 
+
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
+builder.Services.LoadConfiguration(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
