@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Model;
-using System.Net;
-using System.Net.Mail;
 using UserApi.Applications.Dtos.ValueObjects;
 using UserApi.Applications.Interfaces;
 

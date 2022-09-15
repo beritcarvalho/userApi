@@ -1,5 +1,4 @@
-﻿using SendGrid;
-using sib_api_v3_sdk.Model;
+﻿using sib_api_v3_sdk.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
