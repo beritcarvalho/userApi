@@ -4,6 +4,7 @@ using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Model;
 using UserApi.Applications.Dtos.ValueObjects;
 using UserApi.Applications.Interfaces;
+using UserApi.Domain.Exceptions;
 
 namespace UserApi.Applications.Services
 {
@@ -182,9 +183,9 @@ namespace UserApi.Applications.Services
             {
                 return apiInstance.SendTransacEmail(ConteudoDeEnvio);
             }
-            catch(Exception e)
+            catch
             {
-                throw new Exception("Não foi possível enviar o email");
+                throw new EmailException("Não foi possível enviar o email");
             }
         }
     }
