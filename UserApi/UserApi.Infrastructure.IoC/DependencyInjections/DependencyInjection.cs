@@ -43,7 +43,7 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
 
         public static void LoadConfiguration(this IServiceCollection services, IConfiguration configuration)
         {            
-            Configuration.Default.ApiKey.Add("api-key", configuration.GetSection("SendGrid").GetSection("SendGridKey").Value);
+            Configuration.Default.ApiKey.Add("api-key", configuration.GetSection("SendInBlue").GetSection("SendInBlueKey").Value);
         }
     }
 }

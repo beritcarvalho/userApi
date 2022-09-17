@@ -10,6 +10,6 @@ namespace UserApi.Applications.Interfaces
 {
     public interface IEmailSender
     {
-        Task<CreateSmtpEmail> SendEmailAsync(Name nameTo, string password, string email);
+        Task<CreateSmtpEmail> SendEmailNewPasswordAsync(Name nameTo, string password, string email);
     }
 }

@@ -15,19 +15,19 @@ namespace UserApi.Applications.Services
         private readonly IAccountRepository _AccountRepository;
         private readonly IRoleRepository _RoleRepository;
         private readonly IMapper _mapper;
-        private readonly IEmailSender _sendgrid;
+        private readonly IEmailSender _EmailSender;
 
         public RecoveryService(IUserRepository userRepository,
             IAccountRepository accountRepository,
             IRoleRepository roleRepository,
             IMapper mapper,
-            IEmailSender sendgrid)
+            IEmailSender emailSender)
         {
             _UserRepository = userRepository;
             _AccountRepository = accountRepository;
             _RoleRepository = roleRepository;
             _mapper = mapper;
-            _sendgrid =  sendgrid;
+            _EmailSender =  emailSender;
         }
 
         public async Task<RecoveryPasswordViewModel> ForgetPassword(RecoveryPasswordInputModel input)
@@ -47,7 +47,7 @@ namespace UserApi.Applications.Services
                 name.First_Name = user.Account.First_Name;
                 name.Last_Name = user.Account.Last_Name;
 
-                await _sendgrid.SendEmailAsync(name, passwordHash, user.Account.Email);               
+                await _EmailSender.SendEmailNewPasswordAsync(name, passwordHash, user.Account.Email);               
            
                 user.Password_Hash = PasswordHasher.Hash(passwordHash);
                 await _UserRepository.UpdateAsync(user);
@@ -56,6 +56,10 @@ namespace UserApi.Applications.Services
                 return changePassword;
             }
             catch (UserException e)
+            {
+                throw e;
+            }
+            catch (EmailException e)
             {
                 throw e;
             }

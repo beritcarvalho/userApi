@@ -15,7 +15,7 @@ builder.Services.AddServices();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 
-builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendInBlue"));
 builder.Services.LoadConfiguration(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
