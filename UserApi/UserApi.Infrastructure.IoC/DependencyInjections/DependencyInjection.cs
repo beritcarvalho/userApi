@@ -38,7 +38,7 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IRecoveryService, RecoveryService>();
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         public static void LoadConfiguration(this IServiceCollection services, IConfiguration configuration)

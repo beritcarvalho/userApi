@@ -15,13 +15,13 @@ namespace UserApi.Applications.Services
         private readonly IAccountRepository _AccountRepository;
         private readonly IRoleRepository _RoleRepository;
         private readonly IMapper _mapper;
-        private readonly IEmailSender _EmailSender;
+        private readonly IEmailService _EmailSender;
 
         public RecoveryService(IUserRepository userRepository,
             IAccountRepository accountRepository,
             IRoleRepository roleRepository,
             IMapper mapper,
-            IEmailSender emailSender)
+            IEmailService emailSender)
         {
             _UserRepository = userRepository;
             _AccountRepository = accountRepository;

@@ -8,32 +8,32 @@ using UserApi.Domain.Exceptions;
 
 namespace UserApi.Applications.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailService : IEmailService
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        public EmailService(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
             Options = optionsAccessor.Value;
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public AuthMessageSenderOptions Options { get; }
 
-        public async Task<CreateSmtpEmail> SendEmailNewPasswordAsync(Name nameTo, string password, string email)
+        public async Task<CreateSmtpEmail> SendEmailNewPasswordAsync(Name nameTo, string password, string emailAddress)
         {
             var apiInstance = new TransactionalEmailsApi();
-            var from = await PrepararRemetente();
-            var to = await PrepararDestinatarios(nameTo, email);
+            var from = await PrepareSender();
+            var to = await PrepareRecipients(nameTo, emailAddress);
 
-            var conteudoEmail = await PrepararEmailRecoveryNewPassword(nameTo, password, from, to);
+            var emailContent = await PrepareContentNewPasswordEmail(nameTo, password, from, to);
 
-            return await Send(apiInstance, conteudoEmail);
+            return await Send(apiInstance, emailContent);
         }
 
-        private async Task<SendSmtpEmail> PrepararEmailRecoveryNewPassword(Name nameTo, string password, SendSmtpEmailSender from, List<SendSmtpEmailTo> to)
+        private async Task<SendSmtpEmail> PrepareContentNewPasswordEmail(Name nameTo, string password, SendSmtpEmailSender from, List<SendSmtpEmailTo> to)
         { 
             long? templateId;
 
             var subject = "{{params.subject}}";
-            #region ConteudoHtml
+            #region Html Email Body
             var htmlContent = @"
 <!DOCTYPE html>
 <html>
@@ -119,15 +119,11 @@ namespace UserApi.Applications.Services
             headers.Add("Some-Custom-Name", "unique-id-1234");
             templateId = null;
 
-            #region Parametros
+            #region Parameters
             var parameters = new JObject();
-            //Nome/valor parametro para o texto html content
-            parameters.Add("firstName", $"{nameTo.First_Name}");
 
-            //texto/valor parametro do senha
+            parameters.Add("firstName", $"{nameTo.First_Name}");
             parameters.Add("password", $"{password}");
-            
-            //texto/valor parametro do assunto
             parameters.Add("subject", "API - BERIT Recuperação de senha");
 
             Dictionary<string, object> _parmas = new Dictionary<string, object>();
@@ -155,10 +151,10 @@ namespace UserApi.Applications.Services
             return sendSmtpEmail;
         }
 
-        private async Task<List<SendSmtpEmailTo>> PrepararDestinatarios(Name name, string email)
+        private async Task<List<SendSmtpEmailTo>> PrepareRecipients(Name name, string emailAddress)
         {
             //destinatario
-            string ToEmail = email;
+            string ToEmail = emailAddress;
             string ToName = $"{name.First_Name} {name.Last_Name}";
             SendSmtpEmailTo smtpEmailTo = new SendSmtpEmailTo(ToEmail, ToName);
 
@@ -168,24 +164,23 @@ namespace UserApi.Applications.Services
             return To;
         }
 
-        private async Task<SendSmtpEmailSender> PrepararRemetente()
+        private async Task<SendSmtpEmailSender> PrepareSender()
         {
-            //rementente
             string FromName = Options.FromName;
             string FromEmail = Options.FromEmail;
-            SendSmtpEmailSender Email = new SendSmtpEmailSender(FromName, FromEmail);
-            return Email;
+            SendSmtpEmailSender Sender = new SendSmtpEmailSender(FromName, FromEmail);
+            return Sender;
         }
 
-        public async Task<CreateSmtpEmail> Send(TransactionalEmailsApi apiInstance, SendSmtpEmail ConteudoDeEnvio)
+        public async Task<CreateSmtpEmail> Send(TransactionalEmailsApi apiInstance, SendSmtpEmail emailContent)
         {
             try
             {
-                return apiInstance.SendTransacEmail(ConteudoDeEnvio);
+                return apiInstance.SendTransacEmail(emailContent);
             }
             catch
             {
-                throw new EmailException("Não foi possível enviar o email");
+                throw new EmailException("Não foi possível enviar o email de recuperação de senha");
             }
         }
     }

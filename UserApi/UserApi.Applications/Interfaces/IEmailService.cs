@@ -8,8 +8,8 @@ using UserApi.Applications.Dtos.ValueObjects;
 
 namespace UserApi.Applications.Interfaces
 {
-    public interface IEmailSender
+    public interface IEmailService
     {
-        Task<CreateSmtpEmail> SendEmailNewPasswordAsync(Name nameTo, string password, string email);
+        Task<CreateSmtpEmail> SendEmailNewPasswordAsync(Name nameTo, string password, string emailAddress);
     }
 }
