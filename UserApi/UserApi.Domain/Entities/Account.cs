@@ -10,7 +10,7 @@ namespace UserApi.Domain.Entities
         public string Last_Name { get; set; }
         public string Cpf { get; set; }
         public string Phone { get; set; }
-        public string? Email { get; set; }
+        public string Email { get; set; }
         public DateTime Create_Date { get; set; }
         public DateTime? Last_Update_Date { get; set; }
 

@@ -35,7 +35,7 @@ namespace UserApi.Applications.Services
             try
             {
                 var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
-                var user = await _UserRepository.GetUserForChangePassword(input.Cpf.Number, input.Login, phone);
+                var user = await _UserRepository.GetUserForChangePassword(input.Cpf.Number, input.Login.Username, phone);
 
 
                 if (user == null)
@@ -50,6 +50,7 @@ namespace UserApi.Applications.Services
                 await _EmailSender.SendEmailNewPasswordAsync(name, passwordHash, user.Account.Email);               
            
                 user.Password_Hash = PasswordHasher.Hash(passwordHash);
+                
                 await _UserRepository.UpdateAsync(user);
 
                 var changePassword = _mapper.Map<RecoveryPasswordViewModel>(user);
@@ -73,22 +74,24 @@ namespace UserApi.Applications.Services
             try
             {
                 var phone = string.Concat(input.Phone.Ddd + input.Phone.Number);
-                var user = await _UserRepository.GetUserForChangePassword(input.Cpf.Number, input.Login, phone);
+                var user = await _UserRepository.GetUserForChangePassword(input.Cpf.Number, input.Login.Username, phone);
 
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                if (PasswordHasher.Verify(user.Password_Hash, input.Old_Password))
+                ChangePasswordViewModel changePassword = new ChangePasswordViewModel();
+               
+                if (PasswordHasher.Verify(user.Password_Hash, input.Old_Password.Password))
                 {
-
-                    user.Password_Hash = PasswordHasher.Hash(input.New_Password);
+                    user.Password_Hash = PasswordHasher.Hash(input.New_Password.Password);
                     user.Last_Update_Date = DateTime.Now;
 
                     await _UserRepository.UpdateAsync(user);
+                    
+                    changePassword = _mapper.Map<ChangePasswordViewModel>(user);
+                    changePassword.IsSuccess(true);
                 }
-
-                var changePassword = _mapper.Map<ChangePasswordViewModel>(user);
-                changePassword.Success = true;
+                
                 return changePassword;
             }
             catch (UserException e)
@@ -121,14 +124,14 @@ namespace UserApi.Applications.Services
         {
             try
             {
-                var user = await _UserRepository.GetUserForChangeUserName(input.Cpf.Number, input.OldLogin);
+                var user = await _UserRepository.GetUserForChangeUserName(input.Cpf.Number, input.OldLogin.Username);
 
                 if (user == null)
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
-                if (PasswordHasher.Verify(user.Password_Hash, input.Password_Hash))
+                if (PasswordHasher.Verify(user.Password_Hash, input.PasswordInput.Password))
                 {
-                    user.Login = input.NewLogin;
+                    user.Login = input.NewLogin.Username;
                     user.Last_Update_Date = DateTime.Now;
 
                     await _UserRepository.UpdateAsync(user);

@@ -9,13 +9,13 @@ namespace UserApi.Applications.Validators
     {
         public AccountInputModelValidator()
         {
-            RuleFor(account => account.Name).SetValidator(new NameValidador());
+            RuleFor(account => account.Name).SetValidator(new NameValueObjectValidator());
 
-            RuleFor(account => account.Cpf).SetValidator(new CpfValidator());
+            RuleFor(account => account.Cpf).SetValidator(new CpfValueObjectValidator());
 
-            RuleFor(account => account.Phone).SetValidator(new PhoneValidator());
+            RuleFor(account => account.Phone).SetValidator(new PhoneValueObjectValidator());
 
-            RuleFor(account => account.Email).SetValidator(new EmailValidator());
+            RuleFor(account => account.Email).SetValidator(new EmailValueObjectValidator());
         }
     }
 }

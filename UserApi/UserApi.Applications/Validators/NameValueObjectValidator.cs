@@ -8,9 +8,9 @@ using UserApi.Applications.Dtos.ValueObjects;
 
 namespace UserApi.Applications.Validators
 {
-    public class NameValidador : AbstractValidator<Name>
+    public class NameValueObjectValidator : AbstractValidator<Name>
     {
-        public NameValidador()
+        public NameValueObjectValidator()
         {
             RuleFor(account => account.First_Name)
                             .NotNull().WithMessage("O campo nome é requerido")

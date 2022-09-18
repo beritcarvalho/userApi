@@ -54,6 +54,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                 .HasComment("Telefone para contato");
 
             builder.Property(account => account.Email)
+                .IsRequired()
                 .HasColumnName("Email")
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(50)

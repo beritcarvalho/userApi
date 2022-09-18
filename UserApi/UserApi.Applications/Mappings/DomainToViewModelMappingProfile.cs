@@ -29,7 +29,9 @@ namespace UserApi.Applications.Mappings
 
             #region MapeamentoUserService
             CreateMap<UserInputModel, User>()
-                .ForMember(dest => dest.Acco_Id, opt => opt.MapFrom(src => src.Account_Id));
+                .ForMember(dest => dest.Acco_Id, opt => opt.MapFrom(src => src.Account_Id))
+                .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login.Username))
+                .ForMember(dest => dest.Password_Hash, opt => opt.MapFrom(src => src.PropPassword.Password));
 
             CreateMap<User, UserAddViewModel >()
                 .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Account.First_Name))
@@ -41,13 +43,19 @@ namespace UserApi.Applications.Mappings
                 .ForMember(dest => dest.Last_Name, opt => opt.MapFrom(src => src.Account.Last_Name))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
 
+
             CreateMap<User, UserActiveViewModel>();
+
             CreateMap<User, UserInactiveViewModel>();
+            #endregion
+
+            #region MapeamentoRecoveryService
             CreateMap<User, ChangePasswordViewModel>();
             CreateMap<User, RecoveryPasswordViewModel>();
             CreateMap<User, RecoveryUsernameViewModel>();
             CreateMap<User, ChangeUserNameViewModel>();
             #endregion
+
 
             #region MapeamentoRoleService
             CreateMap<Role, RoleViewModel>();

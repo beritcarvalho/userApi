@@ -9,9 +9,9 @@ namespace UserApi.Applications.Dtos.InputModels
 {
     public class ChangeUserNameInputModel
     {
-        public string OldLogin { get; set; }
-        public string NewLogin { get; set; }
+        public UsernameValueObject OldLogin { get; set; }
+        public UsernameValueObject NewLogin { get; set; }
         public Cpf Cpf { get; set; }
-        public string Password_Hash { get; set; }
+        public PasswordValueObject PasswordInput { get; set; }
     }
 }

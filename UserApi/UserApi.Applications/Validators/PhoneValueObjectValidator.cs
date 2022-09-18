@@ -4,9 +4,9 @@ using UserApi.Applications.Dtos.ValueObjects;
 
 namespace UserApi.Applications.Validators
 {
-    public class PhoneValidator : AbstractValidator<Phone>
+    public class PhoneValueObjectValidator : AbstractValidator<Phone>
     {
-        public PhoneValidator()
+        public PhoneValueObjectValidator()
         {
             RuleFor(phone => phone.Ddd)
                 .NotNull().WithMessage("O DDD é obrigatório")

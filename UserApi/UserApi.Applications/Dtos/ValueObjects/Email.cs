@@ -4,6 +4,6 @@ namespace UserApi.Applications.Dtos.ValueObjects
 {
     public class Email
     {
-        public string? EmailAddress { get; set; }
+        public string EmailAddress { get; set; }
     }
 }
