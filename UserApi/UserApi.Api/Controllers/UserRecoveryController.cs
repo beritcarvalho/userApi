@@ -25,6 +25,9 @@ namespace UserApi.Api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ResultViewModel<RecoveryPasswordViewModel>(ModelState.GetErrors()));
+
                 var user = await _RecoveryService.ForgetPassword(inputModel);
 
                 return Ok(new ResultViewModel<RecoveryPasswordViewModel>(user));
@@ -45,6 +48,9 @@ namespace UserApi.Api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ResultViewModel<ChangePasswordViewModel>(ModelState.GetErrors()));
+
                 var user = await _RecoveryService.ChangePassword(inputModel);
 
                 return Ok(new ResultViewModel<ChangePasswordViewModel>(user));
@@ -64,6 +70,9 @@ namespace UserApi.Api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ResultViewModel<RecoveryUsernameViewModel>(ModelState.GetErrors()));
+
                 var user = await _RecoveryService.GetUserName(inputModel);
 
                 return Ok(new ResultViewModel<RecoveryUsernameViewModel>(user));
@@ -83,6 +92,9 @@ namespace UserApi.Api.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ResultViewModel<ChangeUserNameViewModel>(ModelState.GetErrors()));
+
                 var user = await _RecoveryService.ChangeUserName(inputModel);
 
                 return Ok(new ResultViewModel<ChangeUserNameViewModel>(user));
