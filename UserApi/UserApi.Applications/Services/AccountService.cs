@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using UserApi.Applications.Dtos.InputModels;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
@@ -7,29 +8,38 @@ using UserApi.Domain.Entities;
 using UserApi.Domain.Interfaces;
 
 namespace UserApi.Applications.Services
-{
+{    
+    
     public class AccountService : IAccountService
     {
-        private readonly IAccountRepository _accountRepository;
-        private readonly IMapper _mapper;
-        public AccountService(IAccountRepository accountRepository, IMapper mapper)
+        private readonly IAccountRepository _AccountRepository;
+        private readonly IMapper _Mapper;
+        
+        public AccountService(IAccountRepository accountRepository,
+            IMapper mapper,
+            IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
-            _accountRepository = accountRepository;
-            _mapper = mapper;
-
+            _AccountRepository = accountRepository;
+            _Mapper = mapper;
+            EmailProperties = optionsAccessor.Value;
         }
+        
+        public AuthMessageSenderOptions EmailProperties { get; }
 
         public async Task<AccountViewModel> AddAccount(AccountInputModel accountInput)
         {
             try
             {
-                var account = _mapper.Map<Account>(accountInput);
+                var account = _Mapper.Map<Account>(accountInput);
 
                 account.Create_Date = DateTime.Now;
                 account.Last_Update_Date = DateTime.Now;
 
-                await _accountRepository.InsertAsync(account);
-                return _mapper.Map<AccountViewModel>(account);
+                if (string.IsNullOrEmpty(account.Email))
+                    account.Email = EmailProperties.ReplyTo;
+
+                await _AccountRepository.InsertAsync(account);
+                return _Mapper.Map<AccountViewModel>(account);
             }
             catch (DbUpdateException e)
             {
@@ -45,12 +55,12 @@ namespace UserApi.Applications.Services
         {
             try
             {
-                var account = await _accountRepository.GetByIdAsync(id);
+                var account = await _AccountRepository.GetByIdAsync(id);
 
                 if (account == null)
                     return null;
 
-                return _mapper.Map<AccountViewModel>(account);
+                return _Mapper.Map<AccountViewModel>(account);
             }
             catch
             {
@@ -62,17 +72,20 @@ namespace UserApi.Applications.Services
         {
             try
             {
-                var account = await _accountRepository.GetByIdAsync(accountInput.Id);
+                var account = await _AccountRepository.GetByIdAsync(accountInput.Id);
 
                 if (account == null)
                     return null;
 
-                _mapper.Map(accountInput, account);
+                if (string.IsNullOrEmpty(accountInput.Email.EmailAddress))
+                    accountInput.Email.EmailAddress = EmailProperties.ReplyTo;
+
+                _Mapper.Map(accountInput, account);
 
                 account.Last_Update_Date = DateTime.Now;
 
-                await _accountRepository.UpdateAsync(account);
-                return _mapper.Map<AccountViewModel>(account);
+                await _AccountRepository.UpdateAsync(account);
+                return _Mapper.Map<AccountViewModel>(account);
             }
             catch (DbUpdateException e)
             {
@@ -88,13 +101,13 @@ namespace UserApi.Applications.Services
         {
             try
             {
-                var account = await _accountRepository.GetByIdAsync(id);
+                var account = await _AccountRepository.GetByIdAsync(id);
 
                 if (account == null)
                     return null;
 
-                await _accountRepository.RemoveAsync(account);
-                return _mapper.Map<AccountViewModel>(account);
+                await _AccountRepository.RemoveAsync(account);
+                return _Mapper.Map<AccountViewModel>(account);
             }
             catch(DbUpdateException e)
             {
