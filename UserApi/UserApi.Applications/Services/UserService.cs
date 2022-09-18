@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
 using System.Security.Principal;
 using UserApi.Applications.Dtos.InputModels;
+using UserApi.Applications.Dtos.ValueObjects;
 using UserApi.Applications.Dtos.ViewModels;
 using UserApi.Applications.Interfaces;
 using UserApi.Domain.Entities;
@@ -17,15 +18,18 @@ namespace UserApi.Applications.Services
         private readonly IAccountRepository _AccountRepository;
         private readonly IRoleRepository _RoleRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailService _EmailService;
         public UserService(IUserRepository userRepository,
             IAccountRepository accountRepository,
             IRoleRepository roleRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IEmailService emailService)
         {
             _UserRepository = userRepository;
             _AccountRepository = accountRepository;
             _RoleRepository = roleRepository;
             _mapper = mapper;
+            _EmailService = emailService;
         }
 
         public async Task<UserAddViewModel> AddUser(UserInputModel userInput)
@@ -53,9 +57,18 @@ namespace UserApi.Applications.Services
 
                 user.Create_Date = DateTime.Now;
                 user.Last_Update_Date = DateTime.Now;
-                user.Password_Hash = PasswordHasher.Hash(user.Password_Hash);
+                var password = user.Password_Hash;
+                user.Password_Hash = PasswordHasher.Hash(password);
 
                 await _UserRepository.InsertAsync(user);
+
+                var name = new Name
+                {
+                    First_Name = user.Account.First_Name,
+                    Last_Name = user.Account.Last_Name
+                };
+
+                await _EmailService.SendEmailNewUserAsync(name, user.Account.Email, user.Login, password);
                 return _mapper.Map<UserAddViewModel>(user);
             }
             catch (DbUpdateException e)
@@ -63,6 +76,10 @@ namespace UserApi.Applications.Services
                 throw new Exception("ERR-01X01 Não foi possível realizar o cadastro");
             }
             catch (UserException e)
+            {
+                throw e;
+            }
+            catch (EmailException e)
             {
                 throw e;
             }
