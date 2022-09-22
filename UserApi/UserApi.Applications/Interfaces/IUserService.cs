@@ -14,5 +14,6 @@ namespace UserApi.Applications.Interfaces
         Task<UserViewModel> GetUserByIdWithInclude(int id);
         Task<UserActiveViewModel> ActiveUser(int id);
         Task<UserInactiveViewModel> InactiveUser(int id);
+        Task<ChangeRoleViewModel> ChangeRole(int idUser, int IdRole);        
     }
 }

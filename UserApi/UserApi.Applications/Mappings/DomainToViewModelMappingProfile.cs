@@ -41,12 +41,18 @@ namespace UserApi.Applications.Mappings
             CreateMap<User, UserViewModel>()
                 .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Account.First_Name))
                 .ForMember(dest => dest.Last_Name, opt => opt.MapFrom(src => src.Account.Last_Name))
-                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email));
 
 
             CreateMap<User, UserActiveViewModel>();
 
             CreateMap<User, UserInactiveViewModel>();
+
+            CreateMap<User, ChangeRoleViewModel>()
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+
+
             #endregion
 
             #region MapeamentoRecoveryService

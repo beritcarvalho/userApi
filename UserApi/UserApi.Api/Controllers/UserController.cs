@@ -96,5 +96,24 @@ namespace UserApi.Api.Controllers
                 return StatusCode(500, new ResultViewModel<List<UserInactiveViewModel>>(e.Message));
             }
         }
+
+        [HttpPut("{idUser:int}/roles/{idRole:int}")]
+        public async Task<IActionResult> ChangeUserRole([FromRoute] int idUser, int idRole)
+        {
+            try
+            {
+                var user = await _userService.ChangeRole(idUser, idRole);
+
+                return Ok(new ResultViewModel<ChangeRoleViewModel>(user));
+            }
+            catch (UserException e)
+            {
+                return NotFound(new ResultViewModel<List<ChangeRoleViewModel>>(e.Message));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ResultViewModel<List<ChangeRoleViewModel>>(e.Message));
+            }
+        }
     }
 }

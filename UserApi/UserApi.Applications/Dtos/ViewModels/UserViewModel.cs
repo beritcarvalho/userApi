@@ -15,5 +15,6 @@ namespace UserApi.Applications.Dtos.ViewModels
         public DateTime? Inactive_Date { get; set; }
         public DateTime Last_Update_Date { get; set; }
         public string Role { get; set; }
+        public string Email { get; set; }
     }
 }

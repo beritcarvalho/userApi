@@ -35,9 +35,6 @@ namespace UserApi.Applications.Services
                 account.Create_Date = DateTime.Now;
                 account.Last_Update_Date = DateTime.Now;
 
-                if (string.IsNullOrEmpty(account.Email))
-                    account.Email = EmailProperties.ReplyTo;
-
                 await _AccountRepository.InsertAsync(account);
                 return _Mapper.Map<AccountViewModel>(account);
             }
@@ -76,9 +73,6 @@ namespace UserApi.Applications.Services
 
                 if (account == null)
                     return null;
-
-                if (string.IsNullOrEmpty(accountInput.Email.EmailAddress))
-                    accountInput.Email.EmailAddress = EmailProperties.ReplyTo;
 
                 _Mapper.Map(accountInput, account);
 

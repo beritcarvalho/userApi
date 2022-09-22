@@ -45,8 +45,7 @@ namespace UserApi.Applications.Services
 
                 user.Account = account;
 
-                var role = await _RoleRepository.GetByIdAsync(user.Role_Id);
-                
+                var role = await _RoleRepository.GetByIdAsync(user.Role_Id);                
                 if (role == null)
                     throw new UserException("ERR-03X02 Perfil de usuário não encontrado");
 
@@ -150,6 +149,36 @@ namespace UserApi.Applications.Services
                 await _UserRepository.UpdateAsync(user);
 
                 return _mapper.Map<UserInactiveViewModel>(user);
+            }
+            catch (UserException e)
+            {
+                throw e;
+            }
+            catch
+            {
+                throw new Exception("ERR-01X03 Falha interna no servidor");
+            }
+        }
+        public async Task<ChangeRoleViewModel> ChangeRole(int idUser,int IdRole)
+        {
+            try
+            {
+                var user = await _UserRepository.GetByIdAsync(idUser);
+
+                if (user == null)
+                    throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
+
+                var role = await _RoleRepository.GetByIdAsync(IdRole);
+                
+                if (role == null)
+                    throw new UserException("ERR-03X02 Perfil de usuário não encontrado");
+
+                user.Role = role;
+                user.Last_Update_Date = DateTime.Now;
+
+                await _UserRepository.UpdateAsync(user);
+
+                return _mapper.Map<ChangeRoleViewModel>(user);
             }
             catch (UserException e)
             {
