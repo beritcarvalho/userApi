@@ -52,10 +52,10 @@ namespace UserApi.Applications.Services
                 user.Role = role;
 
                 if (user.Active)
-                    user.Active_Date = DateTime.Now;
+                    user.Active_Date = DateTime.UtcNow;
 
-                user.Create_Date = DateTime.Now;
-                user.Last_Update_Date = DateTime.Now;
+                user.Create_Date = DateTime.UtcNow;
+                user.Last_Update_Date = DateTime.UtcNow;
                 var password = user.Password_Hash;
                 user.Password_Hash = PasswordHasher.Hash(password);
 
@@ -117,8 +117,8 @@ namespace UserApi.Applications.Services
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
                 user.Active = true;
-                user.Active_Date = DateTime.Now;
-                user.Last_Update_Date = DateTime.Now;
+                user.Active_Date = DateTime.UtcNow;
+                user.Last_Update_Date = DateTime.UtcNow;
 
                 await _UserRepository.UpdateAsync(user);
 
@@ -143,8 +143,8 @@ namespace UserApi.Applications.Services
                     throw new UserException("ERR-03X01 Perfil de usuário não encontrado");
 
                 user.Active = false;
-                user.Inactive_Date = DateTime.Now;
-                user.Last_Update_Date = DateTime.Now;
+                user.Inactive_Date = DateTime.UtcNow;
+                user.Last_Update_Date = DateTime.UtcNow;
 
                 await _UserRepository.UpdateAsync(user);
 
@@ -174,7 +174,7 @@ namespace UserApi.Applications.Services
                     throw new UserException("ERR-03X02 Perfil de usuário não encontrado");
 
                 user.Role = role;
-                user.Last_Update_Date = DateTime.Now;
+                user.Last_Update_Date = DateTime.UtcNow;
 
                 await _UserRepository.UpdateAsync(user);
 

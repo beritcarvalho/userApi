@@ -95,7 +95,7 @@ namespace UserApi.Applications.Services
                     await _EmailService.SendEmailPasswordAsync(name, newPassword, user.Account.Email, "trocar");
                     
                     user.Password_Hash = PasswordHasher.Hash(newPassword);
-                    user.Last_Update_Date = DateTime.Now;
+                    user.Last_Update_Date = DateTime.UtcNow;
 
                     await _UserRepository.UpdateAsync(user);
                     
@@ -170,7 +170,7 @@ namespace UserApi.Applications.Services
                 {
                     await _EmailService.SendEmailUsernameAsync(name, input.NewLogin.Username, user.Account.Email, "trocar");
                     user.Login = input.NewLogin.Username;
-                    user.Last_Update_Date = DateTime.Now;
+                    user.Last_Update_Date = DateTime.UtcNow;
 
                     await _UserRepository.UpdateAsync(user);
                 }

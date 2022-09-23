@@ -1,9 +1,27 @@
-using sib_api_v3_sdk.Client;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using UserApi.Api.Extensions;
+using UserApi.Applications;
 using UserApi.Applications.Services;
 using UserApi.Infrastructure.IoC.DependencyInjections;
 
 var builder = WebApplication.CreateBuilder(args);
+var key = Encoding.ASCII.GetBytes(JwtConfiguration.JwtKey);//trocar isso depois
+builder.Services.AddAuthentication(authenOptions =>
+{
+    authenOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    authenOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(jwtOptions =>
+{
+    jwtOptions.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+    };
+});
 
 
 
@@ -33,6 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

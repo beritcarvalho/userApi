@@ -32,8 +32,8 @@ namespace UserApi.Applications.Services
             {
                 var account = _Mapper.Map<Account>(accountInput);
 
-                account.Create_Date = DateTime.Now;
-                account.Last_Update_Date = DateTime.Now;
+                account.Create_Date = DateTime.UtcNow;
+                account.Last_Update_Date = DateTime.UtcNow;
 
                 await _AccountRepository.InsertAsync(account);
                 return _Mapper.Map<AccountViewModel>(account);
@@ -76,7 +76,7 @@ namespace UserApi.Applications.Services
 
                 _Mapper.Map(accountInput, account);
 
-                account.Last_Update_Date = DateTime.Now;
+                account.Last_Update_Date = DateTime.UtcNow;
 
                 await _AccountRepository.UpdateAsync(account);
                 return _Mapper.Map<AccountViewModel>(account);
