@@ -169,7 +169,7 @@ namespace UserApi.Applications.Services
                 if (PasswordHasher.Verify(user.Password_Hash, input.PasswordInput.Password))
                 {
                     await _EmailService.SendEmailUsernameAsync(name, input.NewLogin.Username, user.Account.Email, "trocar");
-                    user.Login = input.NewLogin.Username;
+                    user.Login = input.NewLogin.Username.ToLower();
                     user.Last_Update_Date = DateTime.UtcNow;
 
                     await _UserRepository.UpdateAsync(user);

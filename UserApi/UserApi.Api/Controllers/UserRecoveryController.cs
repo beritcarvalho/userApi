@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserApi.Api.Extensions;
 using UserApi.Api.Filters.ViewModels;
 using UserApi.Applications.Dtos.InputModels;
@@ -19,7 +20,7 @@ namespace UserApi.Api.Controllers
             _RecoveryService = userService;
         }
 
-
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman,resident")]
         [HttpPut("passwords/forget")]
         public async Task<IActionResult> RecoveryPassword([FromBody]RecoveryPasswordInputModel inputModel)
         {
@@ -40,9 +41,9 @@ namespace UserApi.Api.Controllers
             {
                 return StatusCode(500, new ResultViewModel<List<RecoveryPasswordViewModel>>(e.Message));
             }
-        }      
+        }
 
-
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman,resident")]
         [HttpPut("passwords")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInputModel inputModel)
         {
@@ -65,6 +66,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman,resident")]
         [HttpGet("usernames")]
         public async Task<IActionResult> RecoveryUserName([FromQuery] RecoveryUserNameInputModel inputModel)
         {
@@ -87,6 +89,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman,resident")]
         [HttpPut("usernames")]
         public async Task<IActionResult> ChangeUserName([FromBody] ChangeUserNameInputModel inputModel)
         {

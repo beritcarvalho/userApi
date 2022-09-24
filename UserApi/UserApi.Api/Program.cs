@@ -7,7 +7,9 @@ using UserApi.Applications.Services;
 using UserApi.Infrastructure.IoC.DependencyInjections;
 
 var builder = WebApplication.CreateBuilder(args);
-var key = Encoding.ASCII.GetBytes(JwtConfiguration.JwtKey);//trocar isso depois
+
+#region JwtConfiguration
+var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Jwt").GetSection("key").Value);
 builder.Services.AddAuthentication(authenOptions =>
 {
     authenOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -22,6 +24,7 @@ builder.Services.AddAuthentication(authenOptions =>
         ValidateAudience = false,
     };
 });
+#endregion
 
 
 

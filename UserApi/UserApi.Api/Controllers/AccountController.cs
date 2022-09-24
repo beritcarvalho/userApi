@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserApi.Api.Extensions;
 using UserApi.Api.Filters.ViewModels;
 using UserApi.Applications.Dtos.InputModels;
@@ -18,6 +19,7 @@ namespace UserApi.Api.Controllers
             _accountService = accountService;
         }
 
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman")]
         [HttpPost]
         public async Task<IActionResult> AddAccount([FromBody] AccountInputModel inputAccount)
         {
@@ -38,7 +40,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
-
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman,resident")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAccountId([FromRoute] int id)
         {
@@ -56,7 +58,8 @@ namespace UserApi.Api.Controllers
                 return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
             }
         }
-
+        
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman")]
         [HttpPut]
         public async Task<IActionResult> UpdateAccount([FromBody] AccountInputModel inputAccount)
         {
@@ -78,7 +81,8 @@ namespace UserApi.Api.Controllers
                 return StatusCode(500, new ResultViewModel<List<AccountViewModel>>(e.Message));
             }
         }
-
+        
+        [Authorize(Roles = "admin,manager")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoveAccount([FromRoute] int id)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserApi.Api.Extensions;
 using UserApi.Api.Filters.ViewModels;
 using UserApi.Applications.Dtos.InputModels;
@@ -19,6 +20,7 @@ namespace UserApi.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "admin,manager,sub-Manager")]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] UserInputModel inputUser)
         {
@@ -39,7 +41,8 @@ namespace UserApi.Api.Controllers
                 return StatusCode(500, new ResultViewModel<List<UserAddViewModel>>(e.Message));
             }
         }
-
+        
+        [Authorize(Roles = "admin,manager,sub-Manager,doorman")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserId([FromRoute] int id)
         {
@@ -59,6 +62,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin,manager,sub-Manager")]
         [HttpPut("Active/{id:int}")]
         public async Task<IActionResult> ActiveUser([FromRoute] int id)
         {
@@ -78,6 +82,8 @@ namespace UserApi.Api.Controllers
             }
         }
 
+
+        [Authorize(Roles = "admin,manager,sub-Manager")]
         [HttpPut("Inactive/{id:int}")]
         public async Task<IActionResult> InactiveUser([FromRoute] int id)
         {
@@ -97,6 +103,7 @@ namespace UserApi.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "admin,manager")]
         [HttpPut("{idUser:int}/roles/{idRole:int}")]
         public async Task<IActionResult> ChangeUserRole([FromRoute] int idUser, int idRole)
         {

@@ -42,7 +42,6 @@ namespace UserApi.Infrastructure.IoC.DependencyInjections
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IRecoveryService, RecoveryService>();
-            services.AddTransient<TokenService>();
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddControllers()

@@ -31,7 +31,8 @@ namespace UserApi.Applications.Mappings
             CreateMap<UserInputModel, User>()
                 .ForMember(dest => dest.Acco_Id, opt => opt.MapFrom(src => src.Account_Id))
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login.Username))
-                .ForMember(dest => dest.Password_Hash, opt => opt.MapFrom(src => src.PropPassword.Password));
+                .ForMember(dest => dest.Password_Hash, opt => opt.MapFrom(src => src.PropPassword.Password))
+                .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login.Username.ToLower()));
 
             CreateMap<User, UserAddViewModel >()
                 .ForMember(dest => dest.First_Name, opt => opt.MapFrom(src => src.Account.First_Name))
