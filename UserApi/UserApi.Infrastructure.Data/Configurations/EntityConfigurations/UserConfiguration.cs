@@ -114,7 +114,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                   {
                       Id = 1,
                       Login = "admin",
-                      Password_Hash = "admin",
+                      Password_Hash = "10000.U4nuXF9Jhi87x0jZi6893A==.rSI4G0QL9aA5kByIf5yz+BtRKW4OMEFlzi+VCjyWFl0=",
                       Active = true,
                       Acco_Id = 1,
                       Role_Id = 1,
@@ -123,7 +123,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                  {
                       Id = 2,
                       Login = "sindico",
-                      Password_Hash = "portaria",
+                      Password_Hash = "10000.Tj/1xyXdwY3YYLi3nkKIUQ==.naJ9GBVRb/0Mc8MBupXPQiJFEeAAokKMTXz/pxLHUP4=",
                       Active = true,
                       Acco_Id = 2,
                       Role_Id = 2,
@@ -132,7 +132,7 @@ namespace UserApi.Infrastructure.Data.Configurations.EntityConfigurations
                 {
                     Id = 3,
                     Login = "porteiro",
-                    Password_Hash = "portaria",
+                    Password_Hash = "10000.fpxC2PTBMdH7WsyRPDKrPg==.kQpbl9i0XiaCG775bU2CJKvLrJ6mCEsrhhlr91RdTeE=",
                     Active = true,
                     Acco_Id = 3,
                     Role_Id = 4,
